@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN,en,de,es,default" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.png">
+  <link rel="icon" href="/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="godbutton">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="java之反射一直不理解反射是啥，闲暇时间找了翻了下《Java 核心技术》 略微理解了点 习惯了javascript，再去理解java的反射特性十分别扭，Javascript 是个脚本语音，动态语言， 而javas是静态语言，得编译成字节码，虚拟机解析执行，运行时不像JS能够直接通过Object.property 或者Object.method在运行时去修改对象属性、方法等。 但是 ，很多时候为了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java之反射">
+<meta property="og:url" content="https://godbuttton.github.io/2023/03/13/java%E4%B9%8B%E5%8F%8D%E5%B0%84/index.html">
+<meta property="og:site_name" content="日进一步">
+<meta property="og:description" content="java之反射一直不理解反射是啥，闲暇时间找了翻了下《Java 核心技术》 略微理解了点 习惯了javascript，再去理解java的反射特性十分别扭，Javascript 是个脚本语音，动态语言， 而javas是静态语言，得编译成字节码，虚拟机解析执行，运行时不像JS能够直接通过Object.property 或者Object.method在运行时去修改对象属性、方法等。 但是 ，很多时候为了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://godbuttton.github.io/2023/03/13/java%E4%B9%8B%E5%8F%8D%E5%B0%84/28b74b5a79064daaa21f2a6ed96d417c-1678973390687.png">
+<meta property="og:image" content="https://godbuttton.github.io/2023/03/13/java%E4%B9%8B%E5%8F%8D%E5%B0%84/image-20230314210305216.png![image-20230330165219770](java%E4%B9%8B%E5%8F%8D%E5%B0%84/image-20230330165219770.png">
+<meta property="og:image" content="https://godbuttton.github.io/2023/03/13/java%E4%B9%8B%E5%8F%8D%E5%B0%84/5p6jdXDA8VtCEfN.png">
+<meta property="article:published_time" content="2023-03-13T14:40:03.000Z">
+<meta property="article:modified_time" content="2023-03-31T09:45:55.453Z">
+<meta property="article:author" content="godbutton">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://godbuttton.github.io/2023/03/13/java%E4%B9%8B%E5%8F%8D%E5%B0%84/28b74b5a79064daaa21f2a6ed96d417c-1678973390687.png">
+  
+  
+  
+  <title>java之反射 - 日进一步</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godbuttton.github.io","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>日拱一卒</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <!--  -->
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">java之反射</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="java之反射"><a href="#java之反射" class="headerlink" title="java之反射"></a>java之反射</h1><p>一直不理解反射是啥，闲暇时间找了翻了下《Java 核心技术》 略微理解了点</p>
+<p>习惯了<code>javascript</code>，再去理解java的反射特性十分别扭，<code>Javascript </code>是个脚本语音，<strong>动态语言</strong>， 而javas是<strong>静态语言</strong>，得编译成字节码，虚拟机解析执行，运行时不像JS能够直接通过<code>Object.property </code>或者<code>Object.method</code>在运行时去修改对象属性、方法等。</p>
+<p>但是 ，很多时候为了写出通用性代码，增强某些类、某些方法，特别是第三方框架，这种时候就需要去动态操作<code>java</code>代码</p>
+<p>整理网上一些资料重点信息</p>
+<h2 id="反射是什么"><a href="#反射是什么" class="headerlink" title="反射是什么"></a>反射是什么</h2><p><strong>能够分析类能力的程序称为反射</strong></p>
+<p>反射库（reflection library）提供了一个丰富且精巧的工具集，可以用来编写和操纵<code>Java</code>代码</p>
+<p>作用：</p>
+<ul>
+<li><p>在运行时分析类的能力</p>
+</li>
+<li><p>在运行时检查对象被</p>
+</li>
+<li><p>实现泛型数组操作代码</p>
+</li>
+<li><p>利用Method对象，调用类的方法</p>
+</li>
+</ul>
+<p><strong>核心围绕<code>Class</code>对象 以及 <code>java.lang.reflect</code>类库  API学习</strong></p>
+<h2 id="Class对象"><a href="#Class对象" class="headerlink" title="Class对象"></a>Class对象</h2><p>在程序运行期间，<code>Java</code>运行时系统始终为所有对象维护一个运行时类型标识，这个信息会跟踪每个对象所属于类，虚拟机利用运行时类型信息选择要执行的正确方法。</p>
+<p>如何获取class对象</p>
+<p>1.每个 类都有class属性, 返回就是这个类的Class对象    </p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">Employee e;<br><span class="hljs-type">Class</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> Employee.class<br></code></pre></td></tr></table></figure>
+
+<p>2.每个对象都有getClass()方法, 返回这个类运行时类对象, 即该类的Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">Employee e;<br><span class="hljs-type">Class</span> <span class="hljs-variable">cl</span> <span class="hljs-operator">=</span> e.getClass<br></code></pre></td></tr></table></figure>
+
+<p>3.Class.forName(类的全限定名) , 返回类Class对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Class.forName(com.test.Employee)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在启动时 包含main方法的类被加载，它会加载所有需要的类。这些类又要加载其它依赖的类，这样会花费很长时间。所以可以在运行时去调用Class.forName手工加载其他类</p>
+</blockquote>
+<p>如何通过反射创建对象,主要有两种方式： </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//方式一</span><br><span class="hljs-type">Class</span> <span class="hljs-variable">class</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;reflection.Student&quot;</span>);<br><span class="hljs-type">Student</span> <span class="hljs-variable">student</span> <span class="hljs-operator">=</span> (Student) class.newInstance();<br>System.out.println(student);<br><br><span class="hljs-comment">//方式二</span><br><span class="hljs-type">Class</span> <span class="hljs-variable">class</span> <span class="hljs-operator">=</span> Class.forName(<span class="hljs-string">&quot;reflection.Student&quot;</span>);<br><span class="hljs-type">Constructor</span> <span class="hljs-variable">constructor</span> <span class="hljs-operator">=</span> class.getConstructor();<br><span class="hljs-type">Student</span> <span class="hljs-variable">student</span> <span class="hljs-operator">=</span> (Student) constructor.newInstance();<br>System.out.println(student);<br><br><br><br></code></pre></td></tr></table></figure>
+
+<p>​		</p>
+<p>从网上找的图片参考处 </p>
+<p>![(java之反射&#x2F;28b74b5a79064daaa21f2a6ed96d417c-1678973390687.png)</p>
+<p><img src="../java之反射/28b74b5a79064daaa21f2a6ed96d417c-1678973390687.png" srcset="/img/loading.gif" lazyload alt="	"></p>
+<p>Java虚拟机创建的，所以不需要显示申明 ，手动编写的类被编译后会产生一个Class对象，其表示的是创建的类的类型信息，而且这个Class对象保存在同名.class的文件中(字节码文件)</p>
+<h2 id="类的加载过程"><a href="#类的加载过程" class="headerlink" title="类的加载过程"></a>类的加载过程</h2><p><img src="../java之反射/image-20230314210305216.png![image-20230330165219770](java之反射/image-20230330165219770.png" srcset="/img/loading.gif" lazyload alt="image-20230314210305216"></p>
+<p>加载：类加载过程的一个阶段：通过一个类的完全限定查找此类字节码文件，并利用字节码文件创建一个Class对象</p>
+<p>链接：验证字节码的安全性和完整性，准备阶段正式为静态域分配存储空间，注意此时只是分配静态成员变量的存储空间，不包含实例成员变量，如果必要的话，解析这个类创建的对其他类的所有引用。</p>
+<p>初始化：类加载最后阶段，若该类具有超类，则对其进行初始化，执行静态初始化器和静态初始化成员变量</p>
+<p>双亲委派机制</p>
+<p><img src="../java之反射/5p6jdXDA8VtCEfN.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>实际上类最开始是由BootstarpClassLoader进行加载，BootstarpClassLoader用于加载JDK提供的类，而我们自己编写的类实际上是AppClassLoader加载的，只有BootstarpClassLoader都没有加载的类，才会让AppClassLoader来加载，因此我们自己编写的同名包同名类不会被加载</p>
+<h2 id="判断类继承关系API"><a href="#判断类继承关系API" class="headerlink" title="判断类继承关系API"></a>判断类继承关系API</h2><ol>
+<li><p>str instanceof String</p>
+</li>
+<li><p>str.getClass() &#x3D;&#x3D; String.class</p>
+</li>
+<li><p>i.getClass().asSubclass(Number.class)   &#x2F;&#x2F;  如果需要判断是否为子类或是接口&#x2F;抽象类的实现，我们可以使用<code>asSubClass()</code>方法</p>
+</li>
+<li><p>i.getClass().getSuperclass() <code>getSuperclass()</code>方法，我们可以获取到父类的Class对象</p>
+</li>
+</ol>
+<p>反射创建对象  返回泛型T，当类默认的构造方法被带参构造覆盖时，会出现InstantiationException异常，因为<code>newInstance()</code>只适用于默认无参构造</p>
+<p> Class<Student> clazz &#x3D; Student.class;    Student student &#x3D; clazz.newInstance();  </p>
+<ol start="5">
+<li><p>反射的时候优先去获取构造器去创建对象 ，newInstance（）只适合无参</p>
+<p>  Class<Student> clazz &#x3D; Student.class;    Student student &#x3D; clazz.getConstructor(String.class).newInstance(“what’s up”);</p>
+</li>
+<li><p>Class<Student> clazz &#x3D; Student.class; Constructor<Student> constructor &#x3D; clazz.getDeclaredConstructor(String.class); constructor.setAccessible(true);   <em>&#x2F;&#x2F;修改访问权限</em></p>
+<p>意味着，反射可以无视权限修饰符访问类的内容</p>
+</li>
+<li><p>反射非常强大，越权访问</p>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/java/">#java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>java之反射</div>
+      <div>https://godbuttton.github.io/2023/03/13/java之反射/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>godbutton</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/17/%E8%A7%A3%E5%86%B3hexo-%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98/" title="解决hexo 博客图片路径问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">解决hexo 博客图片路径问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/13/typero&amp;markdown%20%20quick%20start/" title="typero quik start">
+                        <span class="hidden-mobile">typero quik start</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Power By <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> & Fluid Theme
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

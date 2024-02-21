@@ -1,0 +1,630 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN,en,de,es,default" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.png">
+  <link rel="icon" href="/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="godbutton">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="飞机大战自学完 Java SE  教程，网上找个项目练习下，选中了飞机大战 需求分析UI素材找的网上的，只不过， 网上的是用python实现的，现在用Java实现类似的功能 github :  https:&#x2F;&#x2F;github.com&#x2F;yangshangqi&#x2F;The-Python-code-implements-aircraft-warfare 知识背景Swing 是 Java 为图形界面应用开发提供">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVASE练习-飞机大战">
+<meta property="og:url" content="https://godbuttton.github.io/2023/04/03/JAVASE%E7%BB%83%E4%B9%A0-%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98/index.html">
+<meta property="og:site_name" content="日进一步">
+<meta property="og:description" content="飞机大战自学完 Java SE  教程，网上找个项目练习下，选中了飞机大战 需求分析UI素材找的网上的，只不过， 网上的是用python实现的，现在用Java实现类似的功能 github :  https:&#x2F;&#x2F;github.com&#x2F;yangshangqi&#x2F;The-Python-code-implements-aircraft-warfare 知识背景Swing 是 Java 为图形界面应用开发提供">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://godbuttton.github.io/2023/04/03/JAVASE%E7%BB%83%E4%B9%A0-%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98/image-20230407101833410.png">
+<meta property="og:image" content="https://godbuttton.github.io/2023/04/03/JAVASE%E7%BB%83%E4%B9%A0-%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98/![](JAVASE%E7%BB%83%E4%B9%A0-%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98/image-20230407101833410.png">
+<meta property="article:published_time" content="2023-04-03T01:27:19.000Z">
+<meta property="article:modified_time" content="2023-04-07T02:32:36.378Z">
+<meta property="article:author" content="godbutton">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://godbuttton.github.io/2023/04/03/JAVASE%E7%BB%83%E4%B9%A0-%E9%A3%9E%E6%9C%BA%E5%A4%A7%E6%88%98/image-20230407101833410.png">
+  
+  
+  
+  <title>JAVASE练习-飞机大战 - 日进一步</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godbuttton.github.io","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>日拱一卒</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <!--  -->
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JAVASE练习-飞机大战</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="飞机大战"><a href="#飞机大战" class="headerlink" title="飞机大战"></a>飞机大战</h1><p>自学完 Java SE  教程，网上找个项目练习下，选中了飞机大战</p>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><p>UI素材找的网上的，只不过， 网上的是用python实现的，现在用Java实现类似的功能</p>
+<p>github :  <a target="_blank" rel="noopener" href="https://github.com/yangshangqi/The-Python-code-implements-aircraft-warfare">https://github.com/yangshangqi/The-Python-code-implements-aircraft-warfare</a></p>
+<h2 id="知识背景"><a href="#知识背景" class="headerlink" title="知识背景"></a>知识背景</h2><p>Swing 是 Java 为图形界面应用开发提供的一组工具包，是 Java 基础类的一部分。组件都处于<code>java.awt.Window</code> <code>javax.swing.JComponent</code> 包下</p>
+<p>顶层：JFrame、JDialog</p>
+<p>中间容器：JPanel、JScrollPanel、JSplitPane、JTabledPanel、JlayeredPanel</p>
+<p>特殊容器：JMenuBar、JToolBar、JPopupMenu、JinternalFrame （内部窗口）</p>
+<p>基本组件:  JLabel、JButton、JRadioButton、JCheckBox、JToggleButton、JTextField、JPasswordField、	JTextArea、JComboBox、	JList、</p>
+<p>JProgressBar、JSlider</p>
+<p>选取器组件:JFileChooser	、JColorChooser	</p>
+<p>实际都没用到相关组件   根据点击事件的坐标判断的</p>
+<h2 id="开发"><a href="#开发" class="headerlink" title="开发"></a>开发</h2><p>需求分析</p>
+<p>基础类 ：  背景图片 、位置，长、宽 ，主窗口句柄、绘制方法，</p>
+<p>飞行类： 背景图片 、状态 、位置 、长、宽、 飞行速度，血量  ，销毁方法,主窗口句柄</p>
+<p>玩家飞机： 继承飞行  </p>
+<p>敌方普通飞机：继承飞行 、类的有效实体计数</p>
+<p>敌方Boss飞机：继承飞行 </p>
+<p>子弹：飞行类 实体</p>
+<p>爆炸类: 爆炸效果</p>
+<p>资源类： 音视频类</p>
+<p>Utils类 ：</p>
+<ul>
+<li>敌方飞机的集合、敌方子弹的集合、所有待渲染的集合</li>
+<li>画玩家飞机爆炸动画</li>
+<li>画敌方飞机爆炸动画</li>
+<li>播放音效 爆炸 声音</li>
+</ul>
+<p>MainWin：</p>
+<ul>
+<li>渲染图片、文字</li>
+<li>启动窗口</li>
+<li>属性: 游戏状态、</li>
+</ul>
+<p>多线程：</p>
+<pre><code class="hljs">- 画图
+- 播放音乐
+</code></pre>
+<p>功能列表</p>
+<ul>
+<li>玩家飞机屏幕内随便移动，无法移动出超出屏幕范围，按空格键发出子弹</li>
+<li>敌方小飞机 1s一个 随机出现在屏幕顶部位置，且垂直落下来</li>
+<li>敌方boss 在飞机数量达到500个后出来，地方boss击败后 显示通过</li>
+<li>‘敌方boss 支持血量计算</li>
+<li>我方飞机和敌方飞机碰撞 显示我方飞机爆炸图片，且播放声音</li>
+<li>子弹和敌方飞机碰撞，且敌方飞机如果为boss飞机 敌方飞机爆炸渲染，且播放声音</li>
+<li>随机落下来伞包，捡到伞包炸弹，按B，炸弹爆炸，界面上所有飞机都触发爆炸，大boss掉5滴血</li>
+</ul>
+<p>遇到问题：</p>
+<ol>
+<li><p>音乐播放回阻塞界面，改为多线程</p>
+</li>
+<li><p>抽象出的爆炸类 ，爆炸结束后需要销毁对应的 爆炸物，但是爆炸是利用Timer. schedule，一帧一帧的绘制图片 ，形成动画。需要等动画执行完毕后，在执行对应的方法。 如果是JS ，直接函数回调即可，但是JAVA不行，又不想去把实体对象传入。应该有 更加好的方式处理，最后还是把this传导进去了</p>
+<ul>
+<li>好像可以用线程池 + furture + callable 后面再看</li>
+</ul>
+</li>
+<li><p>由于是多线程播放完动画后销毁飞机的, 所以都去读取 和删除 飞机导致最后集合列表不一致，报遍历错误</p>
+<ul>
+<li>ConcurrentModificationException这个错误 ，加对象锁未解决问题，可能某个敌方没加，后来直接改为了CopyOnWriteArrayList</li>
+</ul>
+</li>
+<li><p>Jframe 的事件监听未重置，导致重新开始游戏的时候报错</p>
+</li>
+</ol>
+<p>代码地址 ：<a target="_blank" rel="noopener" href="https://github.com/godbuttton/PlanWar">https://github.com/godbuttton/PlanWar</a></p>
+<p>执行： 安装依赖 播放声音文件，执行 Main 类的 main方法</p>
+<p>截图如下</p>
+<p><img src="../JAVASE练习-飞机大战/image-20230407101833410.png" srcset="/img/loading.gif" lazyload alt="image-20230407101833410"></p>
+<p><img src="../JAVASE练习-飞机大战/![](JAVASE练习-飞机大战/image-20230407101833410.png" srcset="/img/loading.gif" lazyload alt="image-20230407101940293"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JAVA/">#JAVA</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JAVASE练习-飞机大战</div>
+      <div>https://godbuttton.github.io/2023/04/03/JAVASE练习-飞机大战/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>godbutton</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/11/%E8%AF%BB%E4%B9%A6-labuladong%E7%9A%84%E7%AE%97%E6%B3%95%E2%BC%A9%E6%8A%84/" title="读书-labuladong的算法⼩抄">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">读书-labuladong的算法⼩抄</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/23/JAVA-SE%E5%9F%BA%E7%A1%80/" title="JAVA SE基础">
+                        <span class="hidden-mobile">JAVA SE基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Power By <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> & Fluid Theme
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

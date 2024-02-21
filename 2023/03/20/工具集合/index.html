@@ -1,0 +1,851 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN,en,de,es,default" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.png">
+  <link rel="icon" href="/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="godbutton">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="工具、开发环境集合收集开发过程中的配置、插件、工具站点 工具站点收集   描述 站点     生成控制台字符串 http:&#x2F;&#x2F;patorjk.com&#x2F;software&#x2F;taag&#x2F;#p&#x3D;display&amp;f&#x3D;Graffiti&amp;t&#x3D;Type%20Something%20    压缩图片 https:&#x2F;&#x2F;tinify.cn&#x2F;    SQL生成 https:&#x2F;&#x2F;www.sqlkiller.c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开发工具">
+<meta property="og:url" content="https://godbuttton.github.io/2023/03/20/%E5%B7%A5%E5%85%B7%E9%9B%86%E5%90%88/index.html">
+<meta property="og:site_name" content="日进一步">
+<meta property="og:description" content="工具、开发环境集合收集开发过程中的配置、插件、工具站点 工具站点收集   描述 站点     生成控制台字符串 http:&#x2F;&#x2F;patorjk.com&#x2F;software&#x2F;taag&#x2F;#p&#x3D;display&amp;f&#x3D;Graffiti&amp;t&#x3D;Type%20Something%20    压缩图片 https:&#x2F;&#x2F;tinify.cn&#x2F;    SQL生成 https:&#x2F;&#x2F;www.sqlkiller.c">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-20T07:52:32.000Z">
+<meta property="article:modified_time" content="2023-07-06T09:44:31.640Z">
+<meta property="article:author" content="godbutton">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>开发工具 - 日进一步</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godbuttton.github.io","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>日拱一卒</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <!--  -->
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">开发工具</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="工具、开发环境集合"><a href="#工具、开发环境集合" class="headerlink" title="工具、开发环境集合"></a>工具、开发环境集合</h1><p>收集开发过程中的配置、插件、工具站点</p>
+<h2 id="工具站点收集"><a href="#工具站点收集" class="headerlink" title="工具站点收集"></a>工具站点收集</h2><table>
+<thead>
+<tr>
+<th>描述</th>
+<th>站点</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>生成控制台字符串</td>
+<td><a target="_blank" rel="noopener" href="http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20">http://patorjk.com/software/taag/#p=display&amp;f=Graffiti&amp;t=Type%20Something%20</a></td>
+<td></td>
+</tr>
+<tr>
+<td>压缩图片</td>
+<td><a target="_blank" rel="noopener" href="https://tinify.cn/">https://tinify.cn/</a></td>
+<td></td>
+</tr>
+<tr>
+<td>SQL生成</td>
+<td><a target="_blank" rel="noopener" href="https://www.sqlkiller.com/">https://www.sqlkiller.com/</a></td>
+<td></td>
+</tr>
+<tr>
+<td>javaguide</td>
+<td><a target="_blank" rel="noopener" href="https://javaguide.cn/java/basis/java-basic-questions-01.html">https://javaguide.cn/java/basis/java-basic-questions-01.html</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="学习站点收集"><a href="#学习站点收集" class="headerlink" title="学习站点收集"></a>学习站点收集</h2><table>
+<thead>
+<tr>
+<th>描述</th>
+<th>站点</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>learnGit</td>
+<td><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/?locale=zh_CN">https://learngitbranching.js.org/?locale=zh_CN</a></td>
+<td></td>
+</tr>
+<tr>
+<td>learnSql</td>
+<td><a target="_blank" rel="noopener" href="https://sqlzoo.net/">https://sqlzoo.net/</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="常用开发工具"><a href="#常用开发工具" class="headerlink" title="常用开发工具"></a>常用开发工具</h2><table>
+<thead>
+<tr>
+<th>软件名</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VSCODE</td>
+<td>前端开发</td>
+<td></td>
+</tr>
+<tr>
+<td>Intellij Idea</td>
+<td>Java开发</td>
+<td></td>
+</tr>
+<tr>
+<td>Postman</td>
+<td>工具调用接口</td>
+<td>方便前置脚本、登录、Token等</td>
+</tr>
+<tr>
+<td>Typero</td>
+<td>笔记</td>
+<td></td>
+</tr>
+<tr>
+<td>SourceTree</td>
+<td>git图形化工具</td>
+<td>类似小乌龟</td>
+</tr>
+<tr>
+<td>navicat</td>
+<td>数据库管理工具</td>
+<td></td>
+</tr>
+<tr>
+<td>Xshell</td>
+<td>连接服务器</td>
+<td></td>
+</tr>
+<tr>
+<td>XFtp</td>
+<td>上传文件</td>
+<td></td>
+</tr>
+<tr>
+<td>fiddler</td>
+<td>抓包</td>
+<td>PS：有时候js文件太大 chrome解析不出来的时候<br />可以拦截后映射为本地文件，会影响其它功能软件</td>
+</tr>
+<tr>
+<td>pycharm</td>
+<td>python开发调试</td>
+<td></td>
+</tr>
+<tr>
+<td>utools</td>
+<td>效率神器</td>
+<td>集成各种插件 简直就是效率神器</td>
+</tr>
+<tr>
+<td>Ditto</td>
+<td>剪切板神器</td>
+<td>可与查看最近几次剪切的内容</td>
+</tr>
+<tr>
+<td>Nvm</td>
+<td>管理node版本</td>
+<td>方便切换和管理node nvm-window</td>
+</tr>
+</tbody></table>
+<h2 id="Intellij-Idea-常用插件"><a href="#Intellij-Idea-常用插件" class="headerlink" title="Intellij Idea  常用插件"></a>Intellij Idea  常用插件</h2><table>
+<thead>
+<tr>
+<th>插件名</th>
+<th>用处</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Translation</td>
+<td>随时翻译</td>
+<td></td>
+</tr>
+<tr>
+<td>Alibaba Java Code Guidelines</td>
+<td>阿里巴巴 Java 代码规范，帮助你代码更符合规范，建议安装后将语言替换为中文，提示更加人性。</td>
+<td>在 idea 中双击 shit 输入 阿里，切换中英文</td>
+</tr>
+<tr>
+<td>CodeGlance3</td>
+<td>生成代码地图</td>
+<td></td>
+</tr>
+<tr>
+<td>MyBatisX</td>
+<td>IDEA 的快速开发插件，方便在使用mybatis以及mybatis-plus开始时简化繁琐的重复操作</td>
+<td></td>
+</tr>
+<tr>
+<td>Search In Repository</td>
+<td>把 Maven 的中央仓库的查找功能集成到 idea 中</td>
+<td></td>
+</tr>
+<tr>
+<td>GSONFormat</td>
+<td>可以利用 GsonFormat插件，解析Json格式数据快速创建符合 Gson要求的 JavaBean</td>
+<td></td>
+</tr>
+<tr>
+<td>Maven Helper</td>
+<td>开发过程中，我们难免会遇到各种jar包冲突，Maven Helper可以很方便的找到和排除冲突的依赖。</td>
+<td></td>
+</tr>
+<tr>
+<td>Grep Console</td>
+<td>控制台日志颜色</td>
+<td></td>
+</tr>
+<tr>
+<td>chinese simple</td>
+<td>语言包</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="vscode-常用插件"><a href="#vscode-常用插件" class="headerlink" title="vscode 常用插件"></a>vscode 常用插件</h2><table>
+<thead>
+<tr>
+<th>插件名</th>
+<th>用处</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>vscode-icons</td>
+<td>主题图标</td>
+<td></td>
+</tr>
+<tr>
+<td>Chinese (Simplified)</td>
+<td>编辑器中文语言包</td>
+<td></td>
+</tr>
+<tr>
+<td>Codelf</td>
+<td>给变量起名的神器</td>
+<td></td>
+</tr>
+<tr>
+<td>Prettier</td>
+<td>格式化代码</td>
+<td></td>
+</tr>
+<tr>
+<td>css-auto-prefix</td>
+<td>自动补全、内核兼容性处理</td>
+<td></td>
+</tr>
+<tr>
+<td>CSS Peek</td>
+<td>查看样式</td>
+<td></td>
+</tr>
+<tr>
+<td>LeetCode</td>
+<td>刷题</td>
+<td></td>
+</tr>
+<tr>
+<td>gitLengths</td>
+<td>查看代码提交人</td>
+<td></td>
+</tr>
+<tr>
+<td>Atom One Dark Theme</td>
+<td>主题</td>
+<td></td>
+</tr>
+<tr>
+<td>Auto Close Tag</td>
+<td>自动合并标签</td>
+<td></td>
+</tr>
+<tr>
+<td>Path Intellisense</td>
+<td>相对路径自动补全</td>
+<td></td>
+</tr>
+<tr>
+<td>Snippets</td>
+<td>提示代码片段</td>
+<td></td>
+</tr>
+<tr>
+<td>Volar</td>
+<td>vue官方推荐的vue feature扩展</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="个人习惯的一套快捷键"><a href="#个人习惯的一套快捷键" class="headerlink" title="个人习惯的一套快捷键"></a>个人习惯的一套快捷键</h2><h3 id="vscode（装Eclipse-keymap）"><a href="#vscode（装Eclipse-keymap）" class="headerlink" title="vscode（装Eclipse keymap）"></a>vscode（装Eclipse keymap）</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="Intellij-idea-Eclipse-keymap）"><a href="#Intellij-idea-Eclipse-keymap）" class="headerlink" title="Intellij idea (Eclipse keymap）"></a>Intellij idea (Eclipse keymap）</h3><table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ALT+INSERT</td>
+<td>生成代码</td>
+<td></td>
+</tr>
+<tr>
+<td>SHIFT+SHIFT</td>
+<td>找文件 找类</td>
+<td></td>
+</tr>
+<tr>
+<td>CTRL +H</td>
+<td>文件查找代码</td>
+<td></td>
+</tr>
+<tr>
+<td>CTRL+O</td>
+<td>预览对象属性和方法</td>
+<td></td>
+</tr>
+<tr>
+<td>F4</td>
+<td>查看继承关系</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>开发工具</div>
+      <div>https://godbuttton.github.io/2023/03/20/工具集合/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>godbutton</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/21/%E9%BC%A0%E6%A0%87%E7%A7%BB%E5%8A%A8%E8%84%9A%E6%9C%AC/" title="鼠标移动脚本">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">鼠标移动脚本</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/19/Wife%20And%20Baby%20Care/" title="Wife And Baby Care">
+                        <span class="hidden-mobile">Wife And Baby Care</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Power By <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> & Fluid Theme
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

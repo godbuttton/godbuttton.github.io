@@ -1,0 +1,771 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN,en,de,es,default" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.png">
+  <link rel="icon" href="/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="godbutton">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MYSQL  基础关系型数据库,存储和管理数据 执行图 8.0版本里面直接删除了连接器，查询缓存本身消耗性能，没有缓存的时候需要新建缓存，表级锁失效慢 数据写入流程 索引B+树，树节点存页的地址，叶子节点存的是具体数据页，数据页之间也会有一个双向链表，方便查找 聚簇索引： 非页子节点记录的是行的key ，页子节点记录的是行的信息，聚簇索引不用用户创建，mysql自动创建，一张表有且只有一个聚簇索引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql 基础">
+<meta property="og:url" content="https://godbuttton.github.io/2023/04/20/mysql-%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="日进一步">
+<meta property="og:description" content="MYSQL  基础关系型数据库,存储和管理数据 执行图 8.0版本里面直接删除了连接器，查询缓存本身消耗性能，没有缓存的时候需要新建缓存，表级锁失效慢 数据写入流程 索引B+树，树节点存页的地址，叶子节点存的是具体数据页，数据页之间也会有一个双向链表，方便查找 聚簇索引： 非页子节点记录的是行的key ，页子节点记录的是行的信息，聚簇索引不用用户创建，mysql自动创建，一张表有且只有一个聚簇索引">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://godbuttton.github.io/2023/04/20/mysql-%E5%9F%BA%E7%A1%80/13b8389bd9b744cb9ad4c95013821562.webp">
+<meta property="og:image" content="https://godbuttton.github.io/2023/04/20/mysql-%E5%9F%BA%E7%A1%80/image-20230420142006526.png">
+<meta property="og:image" content="https://godbuttton.github.io/2023/04/20/mysql-%E5%9F%BA%E7%A1%80/20210423165448908.png">
+<meta property="article:published_time" content="2023-04-20T03:43:57.000Z">
+<meta property="article:modified_time" content="2023-04-26T12:45:55.126Z">
+<meta property="article:author" content="godbutton">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://godbuttton.github.io/2023/04/20/mysql-%E5%9F%BA%E7%A1%80/13b8389bd9b744cb9ad4c95013821562.webp">
+  
+  
+  
+  <title>mysql 基础 - 日进一步</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godbuttton.github.io","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>日拱一卒</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <!--  -->
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">mysql 基础</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="MYSQL-基础"><a href="#MYSQL-基础" class="headerlink" title="MYSQL  基础"></a>MYSQL  基础</h1><p>关系型数据库,存储和管理数据</p>
+<h2 id="执行图"><a href="#执行图" class="headerlink" title="执行图"></a>执行图</h2><p> 8.0版本里面直接删除了连接器，查询缓存本身消耗性能，没有缓存的时候需要新建缓存，表级锁失效慢<img src="../mysql-基础/13b8389bd9b744cb9ad4c95013821562.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="数据写入流程"><a href="#数据写入流程" class="headerlink" title="数据写入流程"></a>数据写入流程</h2><p><img src="../mysql-基础/image-20230420142006526.png" srcset="/img/loading.gif" lazyload alt="image-20230420142006526"></p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>B+树，树节点存页的地址，叶子节点存的是具体数据页，数据页之间也会有一个双向链表，方便查找</p>
+<p>聚簇索引： 非页子节点记录的是行的key ，页子节点记录的是行的信息，聚簇索引不用用户创建，mysql自动创建，一张表有且只有一个聚簇索引（主键或者第一个唯一索引unique列为key）都没有则创建一个6字节递增的隐藏列DB_ROW_ID &#x3D;&#x3D;&gt; GEN_CLUST_index的索引</p>
+<p>非聚簇索引，（辅助索引）  页面节点保留聚簇索引的key值，在通过聚簇索引去查，也就是回表</p>
+<h2 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h2><p>通过explain看执行计划 </p>
+<p>type：</p>
+<table>
+<thead>
+<tr>
+<th>值（从高到低）</th>
+<th>含义</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>extra：</p>
+<table>
+<thead>
+<tr>
+<th>值（从高到低）</th>
+<th>含义</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>useIndex</td>
+<td>覆盖索引</td>
+<td></td>
+</tr>
+<tr>
+<td>useIndexCondition</td>
+<td>索引下推（需要大量回表，回表之前）</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>ref：</p>
+<table>
+<thead>
+<tr>
+<th>值（从高到低）</th>
+<th>含义</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="SQL事务"><a href="#SQL事务" class="headerlink" title="SQL事务"></a>SQL事务</h2><p>事务：多个数据库操作打包成一个不可分割的整体来执行，且需要保证数据的一致性、可靠性</p>
+<p>Innodb：ACID模型，即数据库四大特性，A(Atomicity) 原子性 、C(Consistency)一致性、I(Isolation)隔离性、D(Durability)持久性, 最终是为了一致性</p>
+<ul>
+<li>A(Atomicity) 原子性： undo log</li>
+<li>I(Isolation)隔离性：事务不能查看彼此未提交的数据，分为写与写的隔离（锁去解决），读与写的隔离（mvcc）</li>
+<li>A事务读取到B事务未提交的数据  –脏读</li>
+<li>A事务先后2次读取到数据不一致（侧重内容） – 不可重复读</li>
+<li>A事务两次读取的数据条数不一致 （侧重数据量）–  幻读</li>
+<li>D(Durability)持久性： 1. 断电等导致刷盘故障（内存到磁盘） redo log      2.数据页部分数据每刷过去，双写缓冲区 Double write buffer</li>
+</ul>
+<p><strong>隔离级别</strong></p>
+<table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>READ UNCOMITTED（读未提交 RU）（当前读）（<strong>读未提交</strong>）</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>READ COMMITTED (读提交RC)（<strong>读已提交</strong>）</td>
+<td>×</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>REPEATABLE READ (可重复读 PR)（<strong>提交之后的也读取不到，读取刚开启事务时候数据</strong>）</td>
+<td>×</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td>SERIALIZABLE 串行化（<strong>事务排队，不能并发</strong>）</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>MYISAM</strong></p>
+<p>MYISAM就没有事务概览，由于都是非聚簇索引 ，所以不需要回表，而且没有行锁所以快，此外MYISAM还使用了一种称为“延迟键写入”的技术，这意味着它在插入数据时不会立即更新索引，而是将索引写入磁盘缓存，稍后在需要时再进行更新。这使得插入数据的速度更快，因为MYISAM不需要等待索引的更新完成。</p>
+<p><img src="../mysql-基础/20210423165448908.png" srcset="/img/loading.gif" lazyload alt="mysql数据库引擎的区别"></p>
+<h2 id="Undo-log"><a href="#Undo-log" class="headerlink" title="Undo log"></a>Undo log</h2><p>执行器执行之前就写undo log，通过rollpointer关联 </p>
+<p>新增Undo  更新Undo 如果有临时表，还涉及到临时表的undo log</p>
+<p><code>MVCC</code> 的实现依赖于：<strong>隐藏字段、Read View、undo log</strong>。在内部实现中，<code>InnoDB</code> 通过数据行的 <code>DB_TRX_ID</code> 和 <code>Read View</code> 来判断数据的可见性，如不可见，则通过数据行的 <code>DB_ROLL_PTR</code> 找到 <code>undo log</code> 中的历史版本。每个事务读到的数据版本可能是不一样的，在同一个事务中，用户只能看到该事务创建 <code>Read View</code> 之前已经提交的修改和该事务本身做的修改</p>
+<p>保证事务的<strong>原子性</strong></p>
+<hr>
+<p>著作权归所有 原文链接：<a target="_blank" rel="noopener" href="https://javaguide.cn/database/mysql/mysql-logs.html">https://javaguide.cn/database/mysql/mysql-logs.html</a></p>
+<h2 id="Redo-log"><a href="#Redo-log" class="headerlink" title="Redo log"></a>Redo log</h2><p><code>InnoDB</code>存储引擎为<code>redo log</code>的刷盘策略提供了<code>innodb_flush_log_at_trx_commit</code>参数，它支持三种策略   保证事务的<strong>持久性</strong></p>
+<ul>
+<li><strong>设置为0的时候，表示每次事务提交时不进行刷盘操作</strong></li>
+<li><strong>设置为1的时候，表示每次事务提交时都将进行刷盘操作（默认值）</strong></li>
+<li><strong>设置为2的时候，表示每次事务提交时都只把redo log buffer内容写入page cache</strong></li>
+</ul>
+<h2 id="Binlog"><a href="#Binlog" class="headerlink" title="Binlog"></a>Binlog</h2><p><code>MySQL</code>数据库的<strong>数据备份、主备、主主、主从</strong>都离不开<code>binlog</code>，需要依靠<code>binlog</code>来同步数据，保证数据一致性。</p>
+<h2 id="事务锁"><a href="#事务锁" class="headerlink" title="事务锁"></a>事务锁</h2><p>锁信息包含： 事务信息 事务ID、被锁的索引信息、锁类型模式</p>
+<p>锁分类（lock_mode）</p>
+<ul>
+<li><p>LOCK_S:  共享锁  share ，也称为读锁</p>
+</li>
+<li><p>LOCK_X：独占锁  exclusive， 也称为写锁</p>
+</li>
+<li><p>LOCK_IS: 共享意向锁</p>
+</li>
+<li><p>LOCK_IX：独占意向锁</p>
+</li>
+<li><p>LOCK_AUTO_INC：自增锁  事务回滚，自增不会滚，可能导致自增不连续</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs mysql">SELECT age  FROM `big_data_500w` LOCK IN SHARE MODE ;  -- 共享锁<br>SELECT age  FROM `big_data_500w` WHERE age=20  FOR UPDATE ;  -- 排他锁<br></code></pre></td></tr></table></figure>
+
+
+
+<p>锁分类（lock_type）</p>
+<ul>
+<li><p>表锁</p>
+</li>
+<li><p>行锁 </p>
+<ul>
+<li>rec_lock_type: 精准行锁、行GAP锁、NEXT-KEY锁、插入gap锁</li>
+</ul>
+</li>
+<li><p>页锁（BDB引擎才有的）</p>
+</li>
+</ul>
+<h2 id="MVCC"><a href="#MVCC" class="headerlink" title="MVCC"></a>MVCC</h2><p>MVCC（Multi-Version Concurrency Control）多版本并发控制机制，解决脏读和幻读，保证隔离基础上提高了并发效率</p>
+<p>基于undo_log以及readView读视图实现，读视图里面包含了 m_ids、min_trx_id、max_trx_id、creater_trx_id</p>
+<p>需要理解MVCC执行顺序，为啥解决</p>
+<p>解决不可重读：  是因为第一次创建了读视图，后续都是直接按读视图规则去读</p>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><p>网上找题目练习</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- 1、取得每个部门最高薪水的人员名称 </span><br><span class="hljs-keyword">SELECT</span> <br>	<span class="hljs-built_in">MAX</span>(e.SAL) <span class="hljs-keyword">as</span> sal,e.DEPTNO,d.DNAME,e.ENAME<br>	<span class="hljs-keyword">from</span> emp e<br>	<span class="hljs-keyword">JOIN</span> dept d<br>	<span class="hljs-keyword">ON</span> e.DEPTNO<span class="hljs-operator">=</span>d.DEPTNO<br>	<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.DEPTNO<br><br><br><br><span class="hljs-comment">-- 哪些人的薪水在部门的平均薪水之上</span><br><br><span class="hljs-keyword">SELECT</span>  e1.ename, e1.sal,e1.DEPTNO,eavg.avg <span class="hljs-keyword">from</span> emp e1  <span class="hljs-keyword">JOIN</span><br><br>(<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(e.SAL) <span class="hljs-keyword">as</span> avg,DEPTNO <span class="hljs-keyword">from</span> emp e <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.DEPTNO) eavg<br><br><span class="hljs-keyword">ON</span> eavg.DEPTNO <span class="hljs-operator">=</span> e1.DEPTNO <span class="hljs-keyword">and</span>   e1.SAL <span class="hljs-operator">&gt;</span> eavg.avg<br><br><br><br><span class="hljs-comment">-- 取得部门中（所有人的）平均的薪水等级</span><br><br><span class="hljs-keyword">select</span> salgrade.GRADE, eavg.avg,eavg.DEPTNO <br><span class="hljs-keyword">from</span> salgrade <br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(e.SAL) <span class="hljs-keyword">as</span> avg,DEPTNO <span class="hljs-keyword">from</span> emp e <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.DEPTNO) eavg<br><span class="hljs-keyword">ON</span> eavg.avg <span class="hljs-keyword">between</span> salgrade.LOSAL <span class="hljs-keyword">and</span> salgrade.HISAL<br><br><span class="hljs-keyword">select</span> <br>		e.DEPTNO , <span class="hljs-built_in">AVG</span>(s.grade)<br>	<span class="hljs-keyword">from</span><br>		emp e<br>	<span class="hljs-keyword">join</span><br>		salgrade s<br>	<span class="hljs-keyword">on</span><br>		e.sal <span class="hljs-keyword">between</span> s.losal <span class="hljs-keyword">and</span> s.hisal<br> <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <br>		e.DEPTNO<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> DEPTNO<br><br><br><span class="hljs-comment">-- 不准用组函数（Max ），取得最高薪水</span><br><br><span class="hljs-keyword">SELECT</span>  e.ENAME,e.SAL  <span class="hljs-keyword">from</span> emp e <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> e.SAL <span class="hljs-keyword">DESC</span> limit <span class="hljs-number">1</span><br><br><br><span class="hljs-comment">-- 取得平均薪水最高的部门的部门编号</span><br><br><span class="hljs-keyword">SELECT</span> deptno, <span class="hljs-built_in">AVG</span>( emp.SAL) <span class="hljs-keyword">as</span> avg <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> avg <span class="hljs-keyword">desc</span> LIMIT <span class="hljs-number">1</span><br><br><span class="hljs-keyword">SELECT</span> vg.deptno,  <span class="hljs-built_in">MAX</span>(vg.avg) <br><span class="hljs-keyword">from</span> <br>(<span class="hljs-keyword">SELECT</span> deptno, <span class="hljs-built_in">AVG</span>( emp.SAL) <span class="hljs-keyword">as</span> avg <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> deptno) vg<br><br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp e <span class="hljs-keyword">WHERE</span> e.SAL <span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MAX</span>(emp.SAL) <span class="hljs-keyword">from</span> emp) ;<br><br><br><span class="hljs-comment">-- 求平均薪水的等级最低的部门的部门名称</span><br>	<span class="hljs-keyword">select</span> grade <span class="hljs-keyword">from</span> salgrade <span class="hljs-keyword">where</span> (<span class="hljs-keyword">select</span> <span class="hljs-built_in">avg</span>(sal) <span class="hljs-keyword">as</span> avgsal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> deptno <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> avgsal <span class="hljs-keyword">asc</span> limit <span class="hljs-number">1</span>) <span class="hljs-keyword">between</span> losal <span class="hljs-keyword">and</span> hisal;<br><br><span class="hljs-comment">-- 取得比普通员工(员工代码没有在 mgr 字段上出现的) 的最高薪水还要高的领导人姓名</span><br><span class="hljs-comment">-- 普通员工</span><br><span class="hljs-keyword">SELECT</span>  <span class="hljs-built_in">MAX</span>(emp.SAL) <span class="hljs-keyword">as</span> maxSal  <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.EMPNO  <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> emp.MGR <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.mgr <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">NULL</span>)<br><span class="hljs-comment">-- 领导人</span><br><br><span class="hljs-keyword">SELECT</span>  ename,sal  <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.EMPNO <span class="hljs-keyword">in</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> emp.MGR <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.mgr <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">NULL</span>)<br>  <span class="hljs-keyword">and</span> emp.SAL <span class="hljs-operator">&gt;</span> (<span class="hljs-keyword">SELECT</span>  <span class="hljs-built_in">MAX</span>(emp.SAL) <span class="hljs-keyword">as</span> maxSal  <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.EMPNO  <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">DISTINCT</span> emp.MGR <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.mgr <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">NULL</span>)<br>)<br><br><span class="hljs-comment">-- 取得薪水最高的前五名员工</span><br><br><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span> limit <span class="hljs-number">5</span>;<br><br><br><span class="hljs-comment">-- 取得薪水最高的第六到第十名员工</span><br><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> sal <span class="hljs-keyword">desc</span> limit <span class="hljs-number">5</span>,<span class="hljs-number">5</span>;<br><br><span class="hljs-comment">-- 取得最后入职的 5 名员工</span><br><br>	<span class="hljs-keyword">select</span> ename,hiredate <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> hiredate <span class="hljs-keyword">desc</span> limit <span class="hljs-number">5</span>;<br><br><span class="hljs-comment">-- 取得每个薪水等级有多少员工分组count</span><br><br>   <span class="hljs-keyword">SELECT</span> GRADE, <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> emp e <span class="hljs-keyword">join</span> salgrade <span class="hljs-keyword">on</span> e.SAL <span class="hljs-keyword">BETWEEN</span> salgrade.LOSAL <span class="hljs-keyword">and</span> salgrade.HISAL <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> salgrade.GRADE <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> GRADE<br><br><span class="hljs-keyword">select</span> <br>	s.grade ,<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>)<br><span class="hljs-keyword">from</span> <br>	emp e <br><span class="hljs-keyword">join</span> <br>	salgrade s <br><span class="hljs-keyword">on</span> <br>	e.sal <span class="hljs-keyword">between</span> s.losal <span class="hljs-keyword">and</span> s.hisal<br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>	s.grade;<br><br><span class="hljs-comment">-- 列出所有员工及领导的姓名 </span><br><span class="hljs-keyword">select</span> <br>	a.ename <span class="hljs-string">&#x27;员工&#x27;</span>, b.ename <span class="hljs-string">&#x27;领导&#x27;</span><br><span class="hljs-keyword">from</span><br>	emp a<br><span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span><br>	emp b<br><span class="hljs-keyword">on</span><br>	a.mgr <span class="hljs-operator">=</span> b.empno;<br><br><span class="hljs-comment">-- 列出受雇日期早于其直接上级的所有员工的编号,姓名,部门名称</span><br><br><span class="hljs-keyword">SELECT</span> a.ENAME <span class="hljs-string">&#x27;员工&#x27;</span>, a.HIREDATE, b.ENAME <span class="hljs-string">&#x27;领导&#x27;</span>, b.HIREDATE ,d.DNAME<br><span class="hljs-keyword">from</span> emp a <br><span class="hljs-keyword">join</span> emp b<br><span class="hljs-keyword">on</span> a.mgr <span class="hljs-operator">=</span> b.EMPNO <span class="hljs-keyword">and</span>  a.HIREDATE<span class="hljs-operator">&lt;</span>b.HIREDATE <span class="hljs-keyword">and</span> b.ENAME <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span><br><span class="hljs-keyword">join</span><br>	dept d<br><span class="hljs-keyword">on</span><br>	a.deptno <span class="hljs-operator">=</span> d.deptno<br><br><br><span class="hljs-comment">-- 列出部门名称和这些部门的员工信息, 同时列出那些没有员工的部门</span><br><br><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp e <br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> dept <br><span class="hljs-keyword">on</span> dept.deptno<span class="hljs-operator">=</span>e.deptno<br><br><span class="hljs-keyword">select</span> <br>	e.<span class="hljs-operator">*</span>,d.dname<br><span class="hljs-keyword">from</span><br>	emp e<br><span class="hljs-keyword">right</span> <span class="hljs-keyword">join</span><br>	dept d<br><span class="hljs-keyword">on</span><br>	e.deptno <span class="hljs-operator">=</span> d.deptno;<br><br><br><br><span class="hljs-comment">-- 列出至少有 5 个员工的所有部门按照部门编号分组，计数，筛选出 &gt;= 5</span><br><span class="hljs-keyword">SELECT</span> tt.ddname,<span class="hljs-built_in">count</span>(tt.ddname) <span class="hljs-keyword">as</span> num <br><span class="hljs-keyword">from</span> <br>(<br><span class="hljs-keyword">select</span><br>	e.DEPTNO, d.dname <span class="hljs-keyword">as</span> ddname <br><span class="hljs-keyword">from</span><br>	emp e<br><span class="hljs-keyword">right</span> <span class="hljs-keyword">join</span><br>	dept d<br><span class="hljs-keyword">on</span><br>	e.deptno <span class="hljs-operator">=</span> d.deptno) tt<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> tt.ddname <br><span class="hljs-keyword">HAVING</span>  num <span class="hljs-operator">&gt;=</span><span class="hljs-number">5</span><br><br><br><span class="hljs-keyword">select</span> <br>	emp.deptno,dept.dname<br><span class="hljs-keyword">from</span><br>	emp<br><span class="hljs-keyword">JOIN</span> dept <br><span class="hljs-keyword">on</span> dept.DEPTNO <span class="hljs-operator">=</span> emp.deptno<br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>	emp.deptno<br><span class="hljs-keyword">having</span><br>	<span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;=</span> <span class="hljs-number">5</span>;<br><br><span class="hljs-comment">-- 列出薪金比&quot;SMITH&quot; 多的所有员工信息</span><br><br><span class="hljs-keyword">select</span> ename,sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> sal <span class="hljs-operator">&gt;</span> (<span class="hljs-keyword">select</span> sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> ename <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;SMITH&#x27;</span>);<br><br><br><span class="hljs-comment">-- 列出所有&quot;CLERK&quot;( 办事员) 的姓名及其部门名称, 部门的人数</span><br><span class="hljs-keyword">select</span> ename,job <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> job <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CLERK&#x27;</span>;<br><br><br><br><br><span class="hljs-comment">-- 列出最低薪金大于 1500 的各种工作及从事此工作的全部雇员人数按照工作岗位分组求最小值。</span><br><br><span class="hljs-keyword">SELECT</span> job,<span class="hljs-built_in">MIN</span>(emp.SAL) <span class="hljs-keyword">as</span> minsal,<span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>)  <span class="hljs-keyword">from</span> emp  <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> job <span class="hljs-keyword">HAVING</span> minsal<span class="hljs-operator">&gt;</span><span class="hljs-number">1500</span><br><br><br><br><span class="hljs-comment">-- 列出在部门&quot;SALES&quot;&lt; 销售部&gt; 工作的员工的姓名, 假定不知道销售部的部门编号</span><br><br><span class="hljs-keyword">select</span> ename <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> deptno <span class="hljs-operator">=</span> (<span class="hljs-keyword">select</span> deptno <span class="hljs-keyword">from</span> dept <span class="hljs-keyword">where</span> dname <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;SALES&#x27;</span>);<br><br><br><span class="hljs-comment">-- 列出薪金高于公司平均薪金的所有员工, 所在部门, 上级领导, 雇员的工资等级.</span><br><br><br><span class="hljs-comment">-- 列出与&quot;SCOTT&quot; 从事相同工作的所有员工及部门名称</span><br><br><span class="hljs-keyword">SELECT</span> job <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.ENAME<span class="hljs-operator">=</span><span class="hljs-string">&#x27;SCOTT&#x27;</span><br><br><span class="hljs-keyword">SELECT</span> ENAME,d.dname,e.mgr,salgrade.GRADE <span class="hljs-keyword">from</span> emp e <br><span class="hljs-keyword">join</span> dept d<br><span class="hljs-keyword">on</span> d.deptno <span class="hljs-operator">=</span> e.deptno <br><span class="hljs-keyword">join</span> salgrade<br><span class="hljs-keyword">on</span> e.sal <span class="hljs-keyword">BETWEEN</span> salgrade.LOSAL <span class="hljs-keyword">and</span> salgrade.HISAL<br><span class="hljs-keyword">WHERE</span> e.job<span class="hljs-operator">=</span> (<span class="hljs-keyword">SELECT</span> job <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">WHERE</span> emp.ENAME<span class="hljs-operator">=</span><span class="hljs-string">&#x27;SCOTT&#x27;</span>) <span class="hljs-keyword">and</span> e.ENAME<span class="hljs-operator">!=</span><span class="hljs-string">&#x27;SCOTT&#x27;</span><br><br><br><span class="hljs-comment">-- 列出薪金等于部门 30 中员工的薪金的其他员工的姓名和薪金.</span><br><br><span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> deptno <span class="hljs-operator">=</span> <span class="hljs-number">30</span>;<br><br><span class="hljs-keyword">SELECT</span> emp.ENAME,emp.SAL <span class="hljs-keyword">from</span> emp<br><span class="hljs-keyword">WHERE</span> emp.SAL <span class="hljs-keyword">in</span> (<span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> sal <span class="hljs-keyword">from</span> emp <span class="hljs-keyword">where</span> deptno <span class="hljs-operator">=</span> <span class="hljs-number">30</span><br>)<br><span class="hljs-keyword">and</span> <br>	deptno <span class="hljs-operator">&lt;&gt;</span> <span class="hljs-number">30</span>;<br><br><br><span class="hljs-comment">-- 列出在每个部门工作的员工数量, 平均工资和平均服务期限 没有员工的部门，部门人数是0</span><br><br><br><span class="hljs-keyword">SELECT</span> dept.DEPTNO, <span class="hljs-built_in">COUNT</span>(emp.ename) <span class="hljs-string">&#x27;员工数&#x27;</span>, ifnull(<span class="hljs-built_in">AVG</span>( emp.SAL),<span class="hljs-number">0</span>) <span class="hljs-string">&#x27;平均薪水&#x27;</span>, ifnull(<span class="hljs-built_in">AVG</span>(TIMESTAMPDIFF(<span class="hljs-keyword">YEAR</span>,emp.HIREDATE,NOW())),<span class="hljs-number">0</span>) <span class="hljs-keyword">as</span> <span class="hljs-string">&#x27;平均服务年限&#x27;</span> <span class="hljs-keyword">from</span> emp <br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> dept<br><span class="hljs-keyword">on</span> emp.DEPTNO<span class="hljs-operator">=</span> dept.DEPTNO<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> emp.DEPTNO<br><br><br><span class="hljs-comment">-- 列出所有员工的姓名、部门名称和工资。</span><br><br><span class="hljs-keyword">select</span> <br>	e.ename,d.dname,e.sal<br><span class="hljs-keyword">from</span><br>	emp e<br><span class="hljs-keyword">join</span> <br>	dept d<br><span class="hljs-keyword">on</span><br>	e.deptno <span class="hljs-operator">=</span> d.deptno;<br><br><br><br><span class="hljs-comment">-- 列出所有部门的详细信息和人数</span><br><br><span class="hljs-keyword">SELECT</span> dept.LOC,dept.dname, dept.DEPTNO,dept.LOC, <span class="hljs-built_in">count</span>(emp.ename) <span class="hljs-keyword">from</span> emp  <br><span class="hljs-keyword">RIGHT</span> <span class="hljs-keyword">JOIN</span> dept<br><span class="hljs-keyword">on</span> dept.DEPTNO <span class="hljs-operator">=</span>emp.DEPTNO<br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> dept.LOC, dept.DEPTNO,dept.LOC<br><br><br><span class="hljs-comment">-- 列出各种工作的最低工资及从事此工作的雇员姓名</span><br><br><span class="hljs-keyword">select</span> <br>	e.ename,t.<span class="hljs-operator">*</span><br><span class="hljs-keyword">from</span><br>	emp e<br><span class="hljs-keyword">join</span><br>	(<span class="hljs-keyword">select</span> <br>		job,<span class="hljs-built_in">min</span>(sal) <span class="hljs-keyword">as</span> minsal<br>	<span class="hljs-keyword">from</span><br>		emp<br>	<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>		job) t<br><span class="hljs-keyword">on</span><br>	e.job <span class="hljs-operator">=</span> t.job <span class="hljs-keyword">and</span> e.sal <span class="hljs-operator">=</span> t.minsal;<br><br><br><span class="hljs-comment">-- 列出各个部门的 MANAGER( 领导) 的最低薪金</span><br><br><span class="hljs-keyword">select</span> <br>	deptno, <span class="hljs-built_in">min</span>(sal)<br><span class="hljs-keyword">from</span><br>	emp<br><span class="hljs-keyword">where</span><br>	job <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;MANAGER&#x27;</span><br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>	deptno;<br><br><span class="hljs-comment">-- 列出所有员工的 年工资, 按 年薪从低到高排序</span><br><br><span class="hljs-keyword">select</span> <br>	ename,(sal <span class="hljs-operator">+</span> ifnull(comm,<span class="hljs-number">0</span>)) <span class="hljs-operator">*</span> <span class="hljs-number">12</span> <span class="hljs-keyword">as</span> yearsal<br><span class="hljs-keyword">from</span><br>	emp<br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span><br>	yearsal <span class="hljs-keyword">asc</span>;<br><br><br><span class="hljs-comment">-- 求出员工领导的薪水超过3000的员工名称与领导</span><br>	<span class="hljs-keyword">SELECT</span> a.ename &quot;员工&quot;, b.ename &quot;领导&quot; <span class="hljs-keyword">from</span> emp a<br>	<span class="hljs-keyword">join</span> emp b <br>  <span class="hljs-keyword">on</span> a.MGR<span class="hljs-operator">=</span> b.EMPNO<br>  <span class="hljs-keyword">WHERE</span> b.SAL <span class="hljs-operator">&gt;</span><span class="hljs-number">3000</span><br><br><span class="hljs-comment">-- 求出部门名称中, 带&#x27;S&#x27;字符的部门员工的工资合计、部门人数</span><br>		<br> <span class="hljs-keyword">SELECT</span> dept.DNAME,<span class="hljs-built_in">SUM</span>(e.sal) <span class="hljs-string">&#x27;工资合计&#x27;</span>,<span class="hljs-built_in">COUNT</span>(e.ename) <span class="hljs-string">&#x27;人数&#x27;</span>  <span class="hljs-keyword">from</span> emp e  <br> <span class="hljs-keyword">right</span> <span class="hljs-keyword">join</span>  dept<br> <span class="hljs-keyword">on</span> dept.DEPTNO<span class="hljs-operator">=</span>e.deptno <br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.deptno<br><span class="hljs-keyword">HAVING</span> DNAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%s%&#x27;</span><br><br> <span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(e.sal) <span class="hljs-string">&#x27;工资&#x27;</span>,<span class="hljs-built_in">COUNT</span>(e.ename) <span class="hljs-string">&#x27;人数&#x27;</span> <span class="hljs-keyword">from</span> emp e  <br> <span class="hljs-keyword">join</span>  dept<br> <span class="hljs-keyword">on</span> dept.DEPTNO<span class="hljs-operator">=</span>e.deptno <br><span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> e.deptno<br><span class="hljs-keyword">HAVING</span> dept.DNAME <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%s%&#x27;</span><br><br><span class="hljs-comment">-- 给任职日期超过 30 年的员工加薪 10%.</span><br><br><span class="hljs-keyword">update</span> emp <span class="hljs-keyword">set</span> sal <span class="hljs-operator">=</span> sal <span class="hljs-operator">*</span> <span class="hljs-number">1.1</span> <span class="hljs-keyword">where</span> timestampdiff(<span class="hljs-keyword">YEAR</span>, hiredate, now()) <span class="hljs-operator">&gt;</span> <span class="hljs-number">30</span>;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>注意sql的执行顺序</p>
+<p>select 字段</p>
+<p>from 表名</p>
+<p>where …….</p>
+<p>group by ……..</p>
+<p>having …….</p>
+<p>order by ……..</p>
+<p>where  &#x3D;&gt; group by&#x3D;&gt; having&#x3D;&gt;select &#x3D;&gt;order by </p>
+<p>分组后 只有分组的字段才有意义，其余字段没有意义，可以组合分组</p>
+</li>
+<li><p>设计范式</p>
+<ul>
+<li><p>第一范式(确保每列保持原子性)</p>
+</li>
+<li><p>第二范式(确保表中的每列都和主键相关)</p>
+</li>
+<li><p>第三范式(确保每列都和主键列直接相关,而不是间接相关)</p>
+<p>但是数据范式不是必须的，视具体业务而定，因为过多的join 会指数级增加检索</p>
+</li>
+</ul>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF/" class="category-chain-item">技术</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/mysql/">#mysql</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>mysql 基础</div>
+      <div>https://godbuttton.github.io/2023/04/20/mysql-基础/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>godbutton</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/26/%E8%82%A1%E7%A5%A8-%E9%80%9A%E8%BE%BE%E4%BF%A1%E7%89%88%E6%9C%AC/" title="股票-通达信版本">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">股票-通达信版本</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/11/leetcode-%E8%A7%A3%E9%A2%98/" title="leetcode 解题">
+                        <span class="hidden-mobile">leetcode 解题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Power By <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> & Fluid Theme
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

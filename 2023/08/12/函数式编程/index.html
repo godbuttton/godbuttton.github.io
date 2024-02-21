@@ -1,0 +1,652 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN,en,de,es,default" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo.png">
+  <link rel="icon" href="/img/logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="godbutton">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="函数式编程入职了一家新公司，原本以为技术会很落后的，以为进去后也不过是画画页面 ，调用接口。结果进去第一天就发现技术都是最新的 ，业务需求都很简单，但是接手的代码都好新，看代码风格也都是满满的react风格。 vue3+tsx +函数式编程，每一项技术都需要重新学，头疼。 趁周末偷偷充下电，做做笔记，毕竟因为技术太菜被嫌弃就丢人丢大发了！ 也好，学习新的东西对自己的职业生涯也是大有帮助！ Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程">
+<meta property="og:url" content="https://godbuttton.github.io/2023/08/12/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="日进一步">
+<meta property="og:description" content="函数式编程入职了一家新公司，原本以为技术会很落后的，以为进去后也不过是画画页面 ，调用接口。结果进去第一天就发现技术都是最新的 ，业务需求都很简单，但是接手的代码都好新，看代码风格也都是满满的react风格。 vue3+tsx +函数式编程，每一项技术都需要重新学，头疼。 趁周末偷偷充下电，做做笔记，毕竟因为技术太菜被嫌弃就丢人丢大发了！ 也好，学习新的东西对自己的职业生涯也是大有帮助！ Java">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-12T15:22:53.000Z">
+<meta property="article:modified_time" content="2023-08-13T11:13:18.705Z">
+<meta property="article:author" content="godbutton">
+<meta property="article:tag" content="javascript">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>函数式编程 - 日进一步</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"godbuttton.github.io","root":"/","version":"1.9.4","typing":{"enable":false,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"left","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>日拱一卒</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      <!--  -->
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="padding-left: 2rem; margin-right: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">函数式编程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="函数式编程"><a href="#函数式编程" class="headerlink" title="函数式编程"></a>函数式编程</h1><p>入职了一家新公司，原本以为技术会很落后的，以为进去后也不过是画画页面 ，调用接口。结果进去第一天就发现技术都是最新的 ，业务需求都很简单，但是接手的代码都好新，看代码风格也都是满满的react风格。 vue3+tsx +函数式编程，每一项技术都需要重新学，头疼。</p>
+<p>趁周末偷偷充下电，做做笔记，毕竟因为技术太菜被嫌弃就丢人丢大发了！ 也好，学习新的东西对自己的职业生涯也是大有帮助！</p>
+<p>JavaScript 函数式编程是指使用函数来进行编程的一种范式，在函数式编程中，函数被视为一等公民，可以作为变量、参数和返回值来使用</p>
+<ul>
+<li>纯函数  相同的输入一定会产生相同的输出    常见的就是修改外部某个变量，影响了其他函数的执行</li>
+<li>高阶函数   接受一个或多个函数为参数或者返回一个函数作为结果的函数</li>
+<li>函数组合： 将多个函数按照一定的顺序和方式组合起</li>
+<li>惰性计算： 只有在必要的时候才计算结果</li>
+<li>不可变数据：  数据结构在被创建之后不能被修改，只能通过复制来创建新的数据结构</li>
+</ul>
+<h2 id="高阶函数："><a href="#高阶函数：" class="headerlink" title="高阶函数："></a>高阶函数：</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">subtract</span> = (<span class="hljs-params">a, b</span>) =&gt; a - b;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">calculate</span> = (<span class="hljs-params">fn, a, b</span>) =&gt; <span class="hljs-title function_">fn</span>(a, b);<br><span class="hljs-title function_">calculate</span>(add, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>); <br><span class="hljs-title function_">calculate</span>(subtract, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>); <br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a>偏函数</h2><p>偏函数是一种将多个参数的函数转换为接受部分参数的新函数的技术。它基于现有函数创建一个新函数，该新函数在调用时只需要提供其定义中的一些参数，而不是所有必需的参数。一般通过bind方式处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">multiply</span>(<span class="hljs-params">a, b</span>) &#123;<br>  <span class="hljs-keyword">return</span> a * b;<br>&#125;<br><br><span class="hljs-keyword">const</span> double = multiply.<span class="hljs-title function_">bind</span>(<span class="hljs-literal">null</span>, <span class="hljs-number">2</span>);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">double</span>(<span class="hljs-number">5</span>)); <span class="hljs-comment">// 输出 10</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="柯里化-Currying"><a href="#柯里化-Currying" class="headerlink" title="柯里化 Currying"></a>柯里化 Currying</h2><p>柯里化是一种将接受多个参数的函数转换为一系列只接受单个参数的函数的技术。这使我们更容易创建可组合、通用和模块化的函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params">b</span>) &#123;<br>    <span class="hljs-keyword">return</span> a + b;<br>  &#125;<br>&#125;<br><br><span class="hljs-keyword">const</span> addOne = <span class="hljs-title function_">add</span>(<span class="hljs-number">1</span>);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">addOne</span>(<span class="hljs-number">5</span>));<br></code></pre></td></tr></table></figure>
+
+<p>将一个包含多个参数的函数转换成另一个函数，这个函数如果被给到的参数少于正确的数量，就会返回一个接受剩余参数的函数。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">add</span> = (x, y) =&gt; x + y<br><br><span class="hljs-keyword">const</span> curriedAdd = _.curry(<span class="hljs-keyword">add</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数组合"><a href="#函数组合" class="headerlink" title="函数组合"></a>函数组合</h2><p>函数组合是指将两个或多个函数结合在一起以产生一个新函数的技术，管道运算符（Pipeline Operator）和compose函数。</p>
+<p>pip 运算符 ES2021</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> result = <span class="hljs-number">3</span> |&gt; <span class="hljs-title function_">add</span>(<span class="hljs-number">2</span>) |&gt; square;<br></code></pre></td></tr></table></figure>
+
+<p>compose函数,compose函数是一个接受两个或多个函数作为参数并返回一个新函数的高阶函数,  该新函数将把传入的值作为最右边的函数的输入，并将结果带回到最左边的函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> add =&gt; <span class="hljs-function">(<span class="hljs-params">a,b</span>)=&gt;</span> a+b<br><span class="hljs-keyword">const</span> sqr=&gt;<span class="hljs-function"><span class="hljs-params">a</span>=&gt;</span>a*a<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">compose</span>=(<span class="hljs-params">...fn</span>)=&gt;<span class="hljs-function">(<span class="hljs-params">arg</span>)=&gt;</span>fn.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">acc, cur</span>)=&gt;</span><span class="hljs-title function_">cur</span>(acc),arg);<br><span class="hljs-keyword">const</span> result =  <span class="hljs-title function_">compose</span>(sqr,add.<span class="hljs-title function_">bind</span>(<span class="hljs-literal">null</span>,<span class="hljs-number">2</span>))(<span class="hljs-number">3</span>)<br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result)  <span class="hljs-comment">//输出11  3*3+2</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="纯函数-Purity"><a href="#纯函数-Purity" class="headerlink" title="纯函数 Purity"></a>纯函数 Purity</h2><ul>
+<li>可缓存性：由于纯函数的输出只取决于其输入，所以我们可以将它们的执行结果缓存起来</li>
+<li>可测试性：因为纯函数不依赖于外部状态，所以它们更容易被测试和调试，也更容易推理。</li>
+<li>并行代码：由于纯函数没有任何共享状态，所以它们更容易在并行环境中工作。</li>
+</ul>
+<h2 id="副作用-（Side-Effects）"><a href="#副作用-（Side-Effects）" class="headerlink" title="副作用 （Side Effects）"></a>副作用 （Side Effects）</h2><p>目标是尽可能地使用纯函数，但是在某些情况下，副作用是无法避免的</p>
+<ul>
+<li>I&#x2F;O 操作：读写文件、网络请求</li>
+<li>状态管理：有时候我们需要在函数执行过程中记录一些状态信息</li>
+<li>DOM 操作：JavaScript通常用于HTML文档的交互</li>
+</ul>
+<h2 id="幂等（Idempotent）"><a href="#幂等（Idempotent）" class="headerlink" title="幂等（Idempotent）"></a>幂等（Idempotent）</h2><p>幂等（Idempotent）是指对于同一输入值，函数的输出结果总是相同的.无论调用函数多少次，返回的结果都是一样的</p>
+<ul>
+<li>操作数据库，执行多次也只是插入一次</li>
+<li>缓存数据</li>
+<li>网络重新试，调用多次，仅仅只执行一次</li>
+</ul>
+<h2 id="Point-Free"><a href="#Point-Free" class="headerlink" title="Point-Free"></a>Point-Free</h2><p>它的核心思想是将函数组合起来，并通过函数组合实现业务逻辑</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 命令式编程(Imperative programming)</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">add</span>(<span class="hljs-params">a, b</span>) &#123;<br>  <span class="hljs-keyword">return</span> a + b;<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">square</span>(<span class="hljs-params">n</span>) &#123;<br>  <span class="hljs-keyword">return</span> n * n;<br>&#125;<br><br><span class="hljs-keyword">const</span> result = <span class="hljs-title function_">square</span>(<span class="hljs-title function_">add</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>));<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result); <span class="hljs-comment">// 9</span><br><br><span class="hljs-comment">// Point-Free 风格(Point-Free style)</span><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">square</span> = n =&gt; n * n;<br><br><span class="hljs-keyword">const</span> result = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>].<span class="hljs-title function_">reduce</span>(add, <span class="hljs-number">0</span>);<br><span class="hljs-keyword">const</span> squareResult = <span class="hljs-title function_">square</span>(result);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(squareResult); <span class="hljs-comment">// 9</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="契约-Contracts"><a href="#契约-Contracts" class="headerlink" title="契约 (Contracts)"></a>契约 (Contracts)</h2><p>在函数式编程中，契约（Contracts）是指一种基于先决条件和后置条件的编程范式，它描述了一个函数或模块的行为和输入输出之间的关系</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> sendMessage = <span class="hljs-title function_">contract</span>(<span class="hljs-function">(<span class="hljs-params">message, callback</span>) =&gt;</span> &#123;<br>  contract.<span class="hljs-title function_">assert</span>(<br>    contract.<span class="hljs-title function_">typeOf</span>(<span class="hljs-string">&quot;string&quot;</span>, message),<br>    <span class="hljs-string">&#x27;sendMessage(message, callback): message should be a string&#x27;</span><br>  );<br>  contract.<span class="hljs-title function_">assert</span>(<br>    contract.<span class="hljs-title function_">typeOf</span>(<span class="hljs-string">&quot;function&quot;</span>, callback),<br>    <span class="hljs-string">&#x27;sendMessage(message, callback): callback should be a function&#x27;</span><br>  );<br><br>  <span class="hljs-comment">// 实际发送逻辑</span><br>  <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, <span class="hljs-string">&quot;Message sent successfully!&quot;</span>);<br>&#125;);<br><br><span class="hljs-title function_">sendMessage</span>(<span class="hljs-string">&quot;Hello World&quot;</span>, <span class="hljs-function">(<span class="hljs-params">err, result</span>) =&gt;</span> &#123;<br>  <span class="hljs-keyword">if</span> (err) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err);<br>  &#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result);<br>  &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="范畴-Category"><a href="#范畴-Category" class="headerlink" title="范畴 (Category)"></a>范畴 (Category)</h2><p>在 JavaScript 函数式编程中，我们可以将范畴看作是由一些函数和数据类型组成的集合，并通过这些函数和数据类型之间的关系来描述和处理问题。</p>
+<ul>
+<li><p>函数构成范畴</p>
+</li>
+<li><p>Functor 范畴  函子</p>
+</li>
+<li><p>Monad 范畴 <code>Promise</code> 和 <code>IO</code> 都是 Monad 的例子。Monad 主要用于异步操作、异常处理等场景</p>
+</li>
+</ul>
+<h2 id="值类型"><a href="#值类型" class="headerlink" title="值类型"></a>值类型</h2><p>在 JavaScript 函数式编程中，值（Value）是指一种数据结构，它主要用于表示状态不可变的数据。值类型包括基本类型（如 <code>number、string、boolean</code>）以及复合类型（如数组、对象等），值类型的特点是不可变性，即在创建之后它们的值不能被修改。有利于编写纯函数 </p>
+<p><code>immutable.js</code> 库就提供了一系列的数据类型（如 List、Map、Set 等），这些数据类型都是不可变的，只能通过创建新的对象来修改它们的状态。</p>
+<h1 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h1><p>在 JavaScript 中，我们通常使用 Object.freeze() 方法将一个对象转换为常量对象，使得该对象的值不能被修改。定义常量对象的示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> <span class="hljs-variable constant_">COLORS</span> = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">freeze</span>(&#123;<br>  <span class="hljs-attr">RED</span>: <span class="hljs-string">&#x27;#ff0000&#x27;</span>,<br>  <span class="hljs-attr">GREEN</span>: <span class="hljs-string">&#x27;#00ff00&#x27;</span>,<br>  <span class="hljs-attr">BLUE</span>: <span class="hljs-string">&#x27;#0000ff&#x27;</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="函子-Functor"><a href="#函子-Functor" class="headerlink" title="函子 (Functor)"></a>函子 (Functor)</h2><p>函子（Functor）是一种特殊的对象类型，它可以看作是一个容器，用于封装一些值，并提供一些方法来操作这些值。函子实际上是一种抽象的概念，它并不限定具体的实现方式，在实际应用中可以使用数组、对象等数据结构来实现。处理不纯的函数副作用</p>
+<h2 id="抬升-Lift"><a href="#抬升-Lift" class="headerlink" title="抬升 (Lift)"></a>抬升 (Lift)</h2><p> JavaScript 函数式编程中，抬升（Lift）是一种将普通函数转换为可用于处理函子对象的高阶函数的技术。通过使用抬升，我们可以将多个函数组合起来，形成一个新的函数，用于操作函子对象。</p>
+<p>具体实现方式是，我们首先定义一个抬升函数 <code>lift()</code>，该函数接受一个或多个普通函数作为参数，并返回一个新的函数，该新函数可以接受一个或多个函子对象，并将这些函子对象传递给原有函数进行处理，最终返回包含处理结果的新的函子对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// 定义函子对象 Maybe</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Maybe</span> &#123;<br>  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span> = value;<br>  &#125;<br><br>  <span class="hljs-comment">// 如果有值就执行传入的处理函数</span><br>  <span class="hljs-title function_">map</span>(<span class="hljs-params">fn</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span> ? <span class="hljs-keyword">new</span> <span class="hljs-title class_">Maybe</span>(<span class="hljs-title function_">fn</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">value</span>)) : <span class="hljs-keyword">new</span> <span class="hljs-title class_">Maybe</span>(<span class="hljs-literal">null</span>);<br>  &#125;<br>&#125;<br><br><span class="hljs-comment">// 抬升函数 lift()</span><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">lift</span>(<span class="hljs-params">fn</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span> (<span class="hljs-params">...args</span>) &#123;<br>    <span class="hljs-keyword">const</span> first = args[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">if</span> (first <span class="hljs-keyword">instanceof</span> <span class="hljs-title class_">Maybe</span>) &#123;<br>      <span class="hljs-comment">// 如果是 Maybe 对象，则调用 map() 方法处理</span><br>      <span class="hljs-keyword">return</span> first.<span class="hljs-title function_">map</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params">value</span>) &#123;<br>        <span class="hljs-comment">// 调用原始函数处理</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_">fn</span>(...[value, ...args.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>)]);<br>      &#125;);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>      <span class="hljs-comment">// 否则直接调用函数</span><br>      <span class="hljs-keyword">return</span> <span class="hljs-title function_">fn</span>(...args);<br>    &#125;<br>  &#125;;<br>&#125;<br><br><span class="hljs-comment">// 定义两个普通函数</span><br><span class="hljs-keyword">const</span> <span class="hljs-title function_">add</span> = (<span class="hljs-params">a, b</span>) =&gt; a + b;<br><span class="hljs-keyword">const</span> <span class="hljs-title function_">multiply</span> = (<span class="hljs-params">a, b</span>) =&gt; a * b;<br><br><span class="hljs-comment">// 使用抬升处理两个函子对象</span><br><span class="hljs-keyword">const</span> liftedAdd = <span class="hljs-title function_">lift</span>(add);<br><span class="hljs-keyword">const</span> liftedMultiply = <span class="hljs-title function_">lift</span>(multiply);<br><span class="hljs-keyword">const</span> result = <span class="hljs-title function_">liftedAdd</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Maybe</span>(<span class="hljs-number">5</span>), <span class="hljs-keyword">new</span> <span class="hljs-title class_">Maybe</span>(<span class="hljs-number">4</span>)).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">res1</span>) =&gt;</span><br>  <span class="hljs-title function_">liftedMultiply</span>(res1, <span class="hljs-keyword">new</span> <span class="hljs-title class_">Maybe</span>(<span class="hljs-number">10</span>))<br>);<br><br><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>); <span class="hljs-comment">// 输出： &quot;90&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="引用透明性-Referential-Transparency"><a href="#引用透明性-Referential-Transparency" class="headerlink" title="引用透明性 (Referential Transparency)"></a>引用透明性 (Referential Transparency)</h2><p>在 JavaScript 函数式编程中，<code>引用透明性（Referential Transparency）</code>是指一个函数的输出只与它的输入有关，而不依赖于其他外部状态或变量。。</p>
+<p>不依赖外部环糊</p>
+<h2 id="等式推理-Equational-Reasoning"><a href="#等式推理-Equational-Reasoning" class="headerlink" title="等式推理 (Equational Reasoning)"></a>等式推理 (Equational Reasoning)</h2><p>在 JavaScript 函数式编程中，等式推理（Equational Reasoning）是指使用等式来推导代码的正确性。也就是说，我们可以通过等式关系来证明某个函数的正确性，而不需要运行它。这个过程主要依赖于引用透明性，即一个函数的输出只由输入决定，不受外部状态影响。</p>
+<p>等式推理可以帮助我们更好地理解一段代码的含义和作用，并且能够快速地发现可能存在的错误。在函数式编程中，我们把每个函数看做是数学上的一个函数，也就是说，它们只接受输入参数并返回输出结果，不存在副作用，因此可以进行等式推导。</p>
+<p>实际就是方便测试 也没啥意义</p>
+<h2 id="典型应用"><a href="#典型应用" class="headerlink" title="典型应用"></a>典型应用</h2><p>阅读一些典型的代码块</p>
+<ol>
+<li><p>export  const tap &#x3D; (fn) &#x3D;&gt; async (data) &#x3D;&gt; {</p>
+<p> await fn(data);</p>
+<p> return data;</p>
+</li>
+</ol>
+<p>   };</p>
+<p>   只是异步做一些事情，不影响主流程，输入是多少 输出是多少。 通常用于更新视图，操作dom本身也是释放副作用</p>
+<ol start="2">
+<li>export const namespace &#x3D; (name:any) &#x3D;&gt; (payload:any) &#x3D;&gt; async ( stream ) &#x3D;&gt; ({ …stream, [name]: typeof payload &#x3D;&#x3D;&#x3D; “function” ? await payload(stream[name], stream) : payload });</li>
+</ol>
+<p>   不清楚</p>
+<p>   namespace(‘prop’)  （payload）   stream  &#x3D;&#x3D;》 {</p>
+<p>   …stream  ,</p>
+<p>   prop: payload(stream [prop], payload ) | payload</p>
+<p>   }</p>
+<p>3. </p>
+<ol start="4">
+<li><p>export const spaceslide &#x3D; (from, to) &#x3D;&gt; (fn) &#x3D;&gt; namespace(to)(async (_, stream) &#x3D;&gt; await fn(stream[from]));</p>
+<p>​	</p>
+</li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/javascript/">#javascript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>函数式编程</div>
+      <div>https://godbuttton.github.io/2023/08/12/函数式编程/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>godbutton</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年8月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/02/21/Vue-Slot/" title="Vue-Slot">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Vue-Slot</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/07/typescript/" title="typescript">
+                        <span class="hidden-mobile">typescript</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       Power By <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> & Fluid Theme
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
