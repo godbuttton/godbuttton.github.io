@@ -16,23 +16,22 @@
   <meta name="author" content="godbutton">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Vue Slot 向子组件传入值可以用属性Props ，但是无法像组件传入模板。为了弥补某些场景下，向子组件传入模板，让子组件在它们的组件中渲染这些片段  无渲染组件   基础使用1234567&lt;button class&#x3D;&quot;fancy-btn&quot;&gt;  &lt;slot&gt;&lt;&#x2F;slot&gt; &lt;!-- 插槽出口 --&gt;&lt;&#x2F;button&amp;gt">
+    <meta name="description" content="前端checkList最近一直写一些表单、表格、echart的增删改查。功能类似 ，但是还是有一些问题。 和测试来回拉扯沟通，修改bug也很浪费时间。如果一开始就都干好就会省下更多的时间。 总之，能copy就copy copy+改会少去很多问题，虽然都是小问题，但是增加沟通成本和降低了效率，还浪费二次时间 毕竟每一次启动项目、开发、自测、提交代码、部署 都是需要时间！ 需求澄清 新开页面是弹框形式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue-Slot">
-<meta property="og:url" content="https://godbuttton.github.io/2024/02/21/Vue-Slot/index.html">
+<meta property="og:title" content="前端checklist">
+<meta property="og:url" content="https://godbuttton.github.io/2024/03/16/%E5%89%8D%E7%AB%AFchecklist/index.html">
 <meta property="og:site_name" content="日进一步">
-<meta property="og:description" content="Vue Slot 向子组件传入值可以用属性Props ，但是无法像组件传入模板。为了弥补某些场景下，向子组件传入模板，让子组件在它们的组件中渲染这些片段  无渲染组件   基础使用1234567&lt;button class&#x3D;&quot;fancy-btn&quot;&gt;  &lt;slot&gt;&lt;&#x2F;slot&gt; &lt;!-- 插槽出口 --&gt;&lt;&#x2F;button&amp;gt">
+<meta property="og:description" content="前端checkList最近一直写一些表单、表格、echart的增删改查。功能类似 ，但是还是有一些问题。 和测试来回拉扯沟通，修改bug也很浪费时间。如果一开始就都干好就会省下更多的时间。 总之，能copy就copy copy+改会少去很多问题，虽然都是小问题，但是增加沟通成本和降低了效率，还浪费二次时间 毕竟每一次启动项目、开发、自测、提交代码、部署 都是需要时间！ 需求澄清 新开页面是弹框形式">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://godbuttton.github.io/2024/02/21/Vue-Slot/image-20240221091407194.png">
-<meta property="article:published_time" content="2024-02-21T00:49:01.000Z">
-<meta property="article:modified_time" content="2024-02-21T02:19:13.587Z">
+<meta property="article:published_time" content="2024-03-16T15:03:09.000Z">
+<meta property="article:modified_time" content="2024-03-16T15:49:47.803Z">
 <meta property="article:author" content="godbutton">
+<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://godbuttton.github.io/2024/02/21/Vue-Slot/image-20240221091407194.png">
   
   
   
-  <title>Vue-Slot - 日进一步</title>
+  <title>前端checklist - 日进一步</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -210,44 +209,89 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Vue-Slot</h1>
+            <h1 style="display: none">前端checklist</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Vue-Slot"><a href="#Vue-Slot" class="headerlink" title="Vue Slot"></a>Vue Slot</h1><ol>
-<li><p>向子组件传入值可以用属性Props ，但是无法像组件传入模板。为了弥补某些场景下，向子组件传入模板，让子组件在它们的组件中渲染这些片段</p>
+                <h1 id="前端checkList"><a href="#前端checkList" class="headerlink" title="前端checkList"></a>前端checkList</h1><p>最近一直写一些表单、表格、echart的增删改查。功能类似 ，但是还是有一些问题。 和测试来回拉扯沟通，修改bug也很浪费时间。如果一开始就都干好就会省下更多的时间。</p>
+<p>总之，能copy就copy copy+改会少去很多问题，虽然都是小问题，但是增加沟通成本和降低了效率，还浪费二次时间</p>
+<p>毕竟每一次启动项目、开发、自测、提交代码、部署 都是需要时间！</p>
+<h2 id="需求澄清"><a href="#需求澄清" class="headerlink" title="需求澄清"></a>需求澄清</h2><ol>
+<li><p>新开页面是弹框形式还是页面。新页面在新窗口还是原窗口打开</p>
 </li>
-<li><p>无渲染组件</p>
+<li><p>输入框有限定字符数吗 校验规则</p>
 </li>
-</ol>
-<h2 id="基础使用"><a href="#基础使用" class="headerlink" title="基础使用"></a>基础使用</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;fancy-btn&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span> <span class="hljs-comment">&lt;!-- 插槽出口 --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">FancyButton</span>&gt;</span><br>  Click me! <span class="hljs-comment">&lt;!-- 插槽内容 --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">FancyButton</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><blockquote>
-<p>插槽内容<strong>无法访问</strong>子组件的数据。Vue 模板中的表达式只能访问<strong>其定义时</strong>所处的作用域</p>
-</blockquote>
-<p>所以默认插槽内容上下文是当前父组件，因为模板内容是定义在父组件里面</p>
-<h2 id="插槽类型"><a href="#插槽类型" class="headerlink" title="插槽类型"></a>插槽类型</h2><ol>
-<li><p>默认插槽  ：<code>&lt;slot&gt;&lt;/slot&gt; </code>   实际会隐式等效于 name&#x3D;”default”</p>
-</li>
-<li><p>具名插槽： <code>&lt;slot name=&quot;footer&quot;&gt;&lt;/slot&gt;</code>    具名插槽需要template包裹</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-slot:header</span>&gt;</span><br> 	<span class="hljs-comment">&lt;!-- header 插槽的内容放这里 --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br>   <br><span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">header</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><span class="hljs-comment">&lt;!-- 动态插槽名 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">v-slot:</span>[<span class="hljs-attr">dynamicSlotName</span>]&gt;</span><br>  ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p><img src=".././Vue-Slot/image-20240221091407194.png" srcset="/img/loading.gif" lazyload alt="image-20240221091407194"></p>
+<li><p>图片文件上传 限定格式、尺寸、大小</p>
 </li>
 </ol>
-<h2 id="作用域插槽"><a href="#作用域插槽" class="headerlink" title="作用域插槽"></a>作用域插槽</h2><p>由于渲染作用域问题，插槽内容<strong>无法访问</strong>子组件的数据。Vue 模板中的表达式只能访问<strong>其定义时</strong>所处的作用域</p>
-<p>但是某些场景下需要混合渲染，父组件的某些数据结合子组件的某些数据渲染模板。所以需要子组件把数据提供给插槽</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs html"> <span class="hljs-comment">&lt;!-- 默认插槽作用域 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">:text</span>=<span class="hljs-string">&quot;greetingMessage&quot;</span> <span class="hljs-attr">:count</span>=<span class="hljs-string">&quot;1&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">MyComponent</span> <span class="hljs-attr">v-slot</span>=<span class="hljs-string">&quot;slotProps&quot;</span>&gt;</span><br>  &#123;&#123; slotProps.text &#125;&#125; &#123;&#123; slotProps.count &#125;&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">MyComponent</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--具名作用域插槽--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">MyComponent</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">header</span>=<span class="hljs-string">&quot;headerProps&quot;</span>&gt;</span><br>    &#123;&#123; headerProps &#125;&#125;<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">default</span>=<span class="hljs-string">&quot;defaultProps&quot;</span>&gt;</span><br>    &#123;&#123; defaultProps &#125;&#125;<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">footer</span>=<span class="hljs-string">&quot;footerProps&quot;</span>&gt;</span><br>    &#123;&#123; footerProps &#125;&#125;<br>  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">MyComponent</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">slot</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;header&quot;</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;hello&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><br><br><span class="hljs-comment">&lt;!--同时具名作用域插槽和默认作用域插槽--&gt;</span><br> <span class="hljs-tag">&lt;<span class="hljs-name">MyComponent</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 使用显式的默认插槽 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">default</span>=<span class="hljs-string">&quot;&#123; message &#125;&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; message &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">footer</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Here&#x27;s some contact info<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">MyComponent</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>注意点：</p>
-<p>同时具名作用域插槽和默认作用域插槽，需要显示指名默认插槽 ，防止混淆。</p>
-<h2 id="无渲染组件"><a href="#无渲染组件" class="headerlink" title="无渲染组件"></a>无渲染组件</h2><p>一些组件可能只包括了逻辑而不需要自己渲染内容，视图输出通过作用域插槽全权交给了消费者组件。我们将这种类型的组件称为<strong>无渲染组件</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">MouseTracker</span> <span class="hljs-attr">v-slot</span>=<span class="hljs-string">&quot;&#123; x, y &#125;&quot;</span>&gt;</span><br>  Mouse is at: &#123;&#123; x &#125;&#125;, &#123;&#123; y &#125;&#125;<br><span class="hljs-tag">&lt;/<span class="hljs-name">MouseTracker</span>&gt;</span><br></code></pre></td></tr></table></figure>
-
-<p>vue3  里面采用了组合式函数实现类似的效果 ，更加高级，并且还不会带来额外组件嵌套的开销</p>
+<h2 id="页面UI检查"><a href="#页面UI检查" class="headerlink" title="页面UI检查"></a>页面UI检查</h2><ol>
+<li><p>页面的边距是否统一，表单区域上下左右 表格区域上下左右 。页面整体上下左右</p>
+</li>
+<li><p>字体大小，表格表单字体、粗细、颜色 行高是否统一</p>
+</li>
+<li><p>文本左对齐，数值右对齐</p>
+</li>
+<li><p>带图片的行高</p>
+</li>
+<li><p>页面显示无重叠。包括低分辨率下的页面重叠</p>
+</li>
+<li><p>层级遮挡，是否有弹出框层级遮挡</p>
+</li>
+<li><p>颜色风格统一</p>
+</li>
+<li><p>按钮优先级以及图标 边距是否统一</p>
+</li>
+<li><p>页面无js错误</p>
+</li>
+<li><p>需要必填的控件，有必填提醒，如 *</p>
+</li>
+<li><p>表单控件是否可清除</p>
+</li>
+<li><p>页面、提示无错别字</p>
+</li>
+<li><p>表格溢出提示（公共组件处理）</p>
+</li>
+<li><p>控件摆放的位置合适，优先级是否正确。确认按钮在左、取消按钮在右</p>
+</li>
+<li><p>相同校验提示语是否一致</p>
+</li>
+<li><p>标签是否需要加颜色显示</p>
+</li>
+<li><p>删除按钮 成功状态的标签显示  需要封装指令！</p>
+</li>
+</ol>
+<h2 id="功能开发"><a href="#功能开发" class="headerlink" title="功能开发"></a>功能开发</h2><ol>
+<li>字段输入内容的校验，空、超长、临界值</li>
+<li>小数的位数显示多少位，是否以四舍五入的方式显示</li>
+<li>特殊字符乱码</li>
+<li>默认值的检查</li>
+<li>删除后是否刷新，页面立即不显示被删除的内容</li>
+<li>防止重复提交问题，单页后退重复提交</li>
+<li>要考虑自动过滤空格的情况</li>
+<li>表单提交失败停留在当前页面，已输入的内容不会被清空，或重新选择</li>
+<li>有时间段的查询时，开始时间不能大于结束时间</li>
+<li>分页查询，每次点查询是否有重置pageStart</li>
+<li>编辑数据或者操作某些数据，是否有重新刷新列表页面</li>
+<li>是否兼容了后端数据为空场景或者data为null场景</li>
+<li>是否校验添加重复数据、不合法数据</li>
+<li>功能或者页面是否需要按权限、角色做区分</li>
+<li>是否有请求竞态问题，多次异步请求需要取消前一次请求，控制台cancel报错</li>
+<li>try cache错误后是否有打印。而不是完全吞掉错误</li>
+<li>提交数据是否需要自动过滤不符合规则或者空数据</li>
+<li>页面有导入导出的时候模板名称是否有修改</li>
+<li>表格列宽设置是否合理？</li>
+<li>删除、或者重要修改是否有二次确认</li>
+<li>是否有删除多余的console  以及debugger 注释代码</li>
+<li>常量需要定义枚举</li>
+<li>公共功能代码是否有抽离</li>
+<li></li>
+</ol>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><ol>
+<li>不同分辨率页面布局显示是否合理，整齐，分辨率一般为1024<em>768 &gt; 1280</em>1024 &gt;800*600</li>
+<li>小屏幕下表格列宽设置是否合理？</li>
+<li>小屏幕下是否有遮挡，弹出菜单和悬浮框的遮挡。弹出框的显示不完全</li>
+</ol>
 
                 
               </div>
@@ -257,6 +301,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%B7%A5%E5%85%B7/">#工具</a>
+      
+    </div>
+  
 </div>
 
 
@@ -265,8 +316,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Vue-Slot</div>
-      <div>https://godbuttton.github.io/2024/02/21/Vue-Slot/</div>
+      <div>前端checklist</div>
+      <div>https://godbuttton.github.io/2024/03/16/前端checklist/</div>
     </div>
     <div class="license-meta">
       
@@ -278,7 +329,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年2月21日</div>
+          <div>2024年3月16日</div>
         </div>
       
       
@@ -310,18 +361,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/16/%E5%89%8D%E7%AB%AFchecklist/" title="前端checklist">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">前端checklist</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/08/12/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="函数式编程">
-                        <span class="hidden-mobile">函数式编程</span>
+                      <a href="/2024/02/21/Vue-Slot/" title="Vue-Slot">
+                        <span class="hidden-mobile">Vue-Slot</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
